@@ -1,5 +1,11 @@
 <template>
-    <ProductItem :products="products"></ProductItem>
+  <ul>
+    <ProductItem
+      v-for="(product, index) in products"
+      :product="product"
+      :key="index"
+    />
+  </ul>
 </template>
 
 <script>
