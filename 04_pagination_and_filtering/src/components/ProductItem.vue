@@ -13,39 +13,15 @@
     </span>
 
     <ul class="colors colors--black">
-      <li class="colors__item">
+      <li class="colors__item" v-for="color in product.colors" :key="color.id">
         <label class="colors__label" for="fn1">
           <input id="fn1"
             class="colors__radio sr-only"
             type="radio"
             name="color-1"
-            :value=product.color1
+            :value=color.color
           />
-          <span class="colors__value" :style="{background: product.color1}"> </span>
-        </label>
-      </li>
-      <li class="colors__item">
-        <label class="colors__label" for="fn2">
-          <input id="fn2"
-            class="colors__radio sr-only"
-            type="radio"
-            name="color-2"
-            :value=product.color2
-            v-model="color"
-          />
-          <span class="colors__value" :style="{background: product.color2}"> </span>
-        </label>
-      </li>
-      <li class="colors__item">
-        <label class="colors__label" for="fn3">
-          <input for="fn3"
-            class="colors__radio sr-only"
-            type="radio"
-            name="color-3"
-            :value=product.color3
-            v-model="color"
-          />
-          <span class="colors__value" style="background-color: #111"> </span>
+          <span class="colors__value" :style="{background: color.color}"> </span>
         </label>
       </li>
     </ul>

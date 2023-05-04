@@ -57,9 +57,9 @@
         <legend class="form__legend">Цвет</legend>
         <ul class="colors">
           <li class="colors__item" v-for="color in colors" :key="color.id">
-            <label class="colors__label" for="id4">
+            <label class="colors__label" for="color.id">
               <input
-                id="id4"
+                id="color.id"
                 class="colors__radio sr-only"
                 type="radio"
                 name="color"
@@ -193,12 +193,12 @@ export default {
       currentPriceFrom: 0,
       currentPriceTo: 0,
       currentCategoryId: 0,
-      currentColorsId: 0,
+      currentColorId: 0,
     };
   },
   name: 'ProductFilter',
   components: {},
-  props: ['priceFrom', 'priceTo', 'categoryId'],
+  props: ['priceFrom', 'priceTo', 'categoryId', 'colorId'],
   computed: {
     categories() {
       return categories;
