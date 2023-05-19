@@ -3,7 +3,7 @@ export default [
     id: 1,
     categoryId: 4,
     title: 'Радионяня Motorola MBP16',
-    price: '3 690 ₽',
+    price: '3690',
     image: 'img/radio.jpg',
     colors: [
       {
@@ -24,7 +24,7 @@ export default [
     id: 2,
     categoryId: 1,
     title: 'Ультразвуковая зубная щётка Playbrush Smart Sonic',
-    price: '5 660 ₽',
+    price: '5660',
     image: '/img/toothbrush.jpg',
     colors: [
       {
@@ -45,7 +45,7 @@ export default [
     id: 3,
     categoryId: 2,
     title: 'Смартфон Xiaomi Mi Mix 3 6/128GB',
-    price: '21 790 ₽',
+    price: '21790',
     image: '/img/phone.jpg',
     colors: [
       {
@@ -66,7 +66,7 @@ export default [
     id: 4,
     categoryId: 3,
     title: 'Электроскейт Razor Cruiser',
-    price: '24 690 ₽',
+    price: '24690',
     image: '/img/board.jpg',
     colors: [
       {
@@ -87,7 +87,7 @@ export default [
     id: 5,
     categoryId: 2,
     title: 'Смартфон Xiaomi Mi A3 4/64GB Android One',
-    price: '14 960 ₽',
+    price: '14960',
     image: '/img/phone-2.jpg',
     colors: [
       {
@@ -108,7 +108,7 @@ export default [
     id: 6,
     categoryId: 2,
     title: 'Смартфон Xiaomi Redmi 6/128GB',
-    price: '39 900 ₽',
+    price: '39900',
     image: '/img/phone-3.jpg',
     colors: [
       {
@@ -129,7 +129,7 @@ export default [
     id: 7,
     categoryId: 3,
     title: 'Электрический дрифт-карт Razor Crazy Cart',
-    price: '8 960 ₽',
+    price: '8960',
     image: '/img/bicycle.jpg',
     colors: [
       {
@@ -150,7 +150,7 @@ export default [
     id: 8,
     categoryId: 3,
     title: 'Гироскутер Razor Hovertrax 2.0',
-    price: '34 900 ₽',
+    price: '34900',
     image: '/img/wheels.jpg',
     colors: [
       {
@@ -171,7 +171,7 @@ export default [
     id: 9,
     categoryId: 3,
     title: 'Детский трюковой самокат Razor Grom',
-    price: '4 990 ₽',
+    price: '4990',
     image: '/img/scooter.jpg',
     colors: [
       {
@@ -192,7 +192,7 @@ export default [
     id: 10,
     categoryId: 3,
     title: 'Роллерсёрф Razor RipStik Air Pro',
-    price: '6 690 ₽',
+    price: '6690',
     image: '/img/ripstik.jpg',
     colors: [
       {
@@ -213,7 +213,7 @@ export default [
     id: 11,
     categoryId: 5,
     title: 'Наушники AirPods с беспроводным зарядным футляром',
-    price: '16 560 ₽',
+    price: '16560',
     image: '/img/airpods.jpg',
     colors: [
       {
@@ -234,7 +234,7 @@ export default [
     id: 12,
     categoryId: 3,
     title: 'Роллерсёрф Razor RipStik Air Pro',
-    price: '30 690 ₽',
+    price: '30690',
     image: '/img/headphones.jpg',
     colors: [
       {
@@ -255,7 +255,7 @@ export default [
     id: 13,
     categoryId: 6,
     title: 'Бра настенное поворотное на кронштейне, Voltige',
-    price: '12 649 ₽',
+    price: '12649',
     image: '/img/LampLD.webp',
     colors: [
       {
@@ -276,7 +276,7 @@ export default [
     id: 14,
     categoryId: 6,
     title: 'Лампа из латуни Zoticus',
-    price: '9 749 ₽',
+    price: '9749',
     image: '/img/Lamp2LD.webp',
     colors: [
       {
@@ -297,7 +297,7 @@ export default [
     id: 15,
     categoryId: 6,
     title: 'Светильник из ротанга, Lola',
-    price: '32 749 ₽',
+    price: '32749',
     image: '/img/Lamp3LD.webp',
     colors: [
       {
@@ -318,7 +318,7 @@ export default [
     id: 16,
     categoryId: 6,
     title: 'Светильник, Stefana',
-    price: '33 749 ₽',
+    price: '33749',
     image: '/img/Lamp4LD.webp',
     colors: [
       {
@@ -339,7 +339,7 @@ export default [
     id: 17,
     categoryId: 6,
     title: 'Абажур из рафии, Dolkie',
-    price: '6 349 ₽',
+    price: '6349',
     image: '/img/Lamp5LD.webp',
     colors: [
       {
@@ -360,7 +360,7 @@ export default [
     id: 18,
     categoryId: 6,
     title: 'Светильник с рукавами, Rosella',
-    price: '11 449 ₽',
+    price: '11449',
     image: '/img/Lamp6LD.webp',
     colors: [
       {
@@ -381,7 +381,7 @@ export default [
     id: 19,
     categoryId: 6,
     title: 'Светильник из металла и стекла, Kiyo',
-    price: '5 449 ₽',
+    price: '5449',
     image: '/img/Lamp7LD.webp',
     colors: [
       {
@@ -402,7 +402,7 @@ export default [
     id: 20,
     categoryId: 6,
     title: 'Бра из орехового дерева, металла и хлопка, Noyanna',
-    price: '5 779 ₽',
+    price: '5779',
     image: '/img/Lamp8LD.webp',
     colors: [
       {
@@ -423,7 +423,7 @@ export default [
     id: 21,
     categoryId: 6,
     title: 'Светильник с плетеным материалом, Dolkie',
-    price: '4 779 ₽',
+    price: '4779',
     image: '/img/Lamp9LD.webp',
     colors: [
       {
