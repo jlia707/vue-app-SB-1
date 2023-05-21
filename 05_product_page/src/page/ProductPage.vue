@@ -3,13 +3,25 @@
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
-          <a class="breadcrumbs__link" href="index.html"> Каталог </a>
+          <a
+            class="breadcrumbs__link"
+            href="#"
+            @click.prevent="gotoPage('main')"
+          >
+            Каталог
+          </a>
         </li>
         <li class="breadcrumbs__item">
-          <a class="breadcrumbs__link" href="#"> Мобильный транспорт </a>
+          <a
+            class="breadcrumbs__link"
+            href="#"
+            @click.prevent="gotoPage('main')"
+          >
+            {{ category.title }}
+          </a>
         </li>
         <li class="breadcrumbs__item">
-          <a class="breadcrumbs__link"> Смартфон Xiaomi Mi Mix 3 6/128GB </a>
+          <a class="breadcrumbs__link"> {{ product.title }} </a>
         </li>
       </ul>
     </div>
@@ -20,9 +32,9 @@
           <img
             width="570"
             height="570"
-            src="img/phone-square.jpg"
+            :src="product.image"
             srcset="img/phone-square@2x.jpg 2x"
-            alt="Название товара"
+            :alt="product.title"
           />
         </div>
         <ul class="pics__list">
@@ -74,11 +86,11 @@
       </div>
 
       <div class="item__info">
-        <span class="item__code">Артикул: 150030</span>
-        <h2 class="item__title">Смартфон Xiaomi Mi Mix 3 6/128GB</h2>
+        <span class="item__code">Артикул: {{ product.id }}</span>
+        <h2 class="item__title">{{ product.title }}</h2>
         <div class="item__form">
           <form class="form" action="#" method="POST">
-            <b class="item__price"> 18 990 ₽ </b>
+            <b class="item__price"> {{ product.price | numberFormat }} ₽ </b>
 
             <fieldset class="form__block">
               <legend class="form__legend">Цвет:</legend>
@@ -185,7 +197,7 @@
                     <use xlink:href="#icon-minus"></use>
                   </svg>
                 </button>
-                <label for ="id8">
+                <label for="id8">
                   <input type="text" value="1" name="count" id="id8" />
                 </label>
                 <button type="button" aria-label="Добавить один товар">
@@ -267,16 +279,27 @@
 <script>
 import categories from '@/data/categories';
 import products from '@/data/products';
+import gotoPage from '@/helpers/gotoPage';
+import numberFormat from '@/helpers/numberFormat';
 
 export default {
+  name: 'ProductPage',
   props: ['pageParams'],
+  filters: {
+    numberFormat,
+  },
   computed: {
     product() {
       return products.find((product) => product.id === this.pageParams.id);
     },
     category() {
-      return categories.find((category) => category.id === this.product.categoryId);
+      return categories.find(
+        (category) => category.id === this.product.categoryId,
+      );
     },
+  },
+  methods: {
+    gotoPage,
   },
 };
 </script>

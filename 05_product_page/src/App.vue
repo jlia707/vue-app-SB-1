@@ -1,14 +1,13 @@
-/* eslint-disable */
 <template>
   <!-- Vue есть специальный тег component, который позволяет изменять компаненты динамически -->
   <component
     :is='currentPageComponent'
-    :page-params='currentPageParams'
-    @gotoPage="(pageName, pageParams) => gotoPage(pageName, pageParams)">
+    :page-params='currentPageParams'>
   </component>
 </template>
 
 <script>
+import eventBus from './eventBus';
 import MainPage from './page/MainPage.vue';
 import NotFoundPage from './page/NotFoundPage.vue';
 import ProductPage from './page/ProductPage.vue';
@@ -30,7 +29,7 @@ export default {
     };
   },
   methods: {
-    gotoPage(pageName, pageParams) {
+    gotoPage1(pageName, pageParams) {
       this.currentPage = pageName;
       this.currentPageParams = pageParams || {};
     },
@@ -41,5 +40,8 @@ export default {
     },
   },
   components: { MainPage, ProductPage, NotFoundPage },
+  created() {
+    eventBus.$on('gotoPage', (pageName, pageParams) => this.gotoPage1(pageName, pageParams));
+  },
 };
 </script>
