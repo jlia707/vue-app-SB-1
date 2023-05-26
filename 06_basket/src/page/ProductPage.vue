@@ -3,22 +3,22 @@
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
-          <a
+          <router-link
             class="breadcrumbs__link"
             href="#"
-            @click.prevent="gotoPage('main')"
+            :to="{name: 'main'}"
           >
             Каталог
-          </a>
+          </router-link>
         </li>
         <li class="breadcrumbs__item">
-          <a
+          <router-link
             class="breadcrumbs__link"
             href="#"
-            @click.prevent="gotoPage('main')"
+            :to="{name: 'main'}"
           >
             {{ category.title }}
-          </a>
+          </router-link>
         </li>
         <li class="breadcrumbs__item">
           <a class="breadcrumbs__link"> {{ product.title }} </a>
@@ -89,7 +89,8 @@
         <span class="item__code">Артикул: {{ product.id }}</span>
         <h2 class="item__title">{{ product.title }}</h2>
         <div class="item__form">
-          <form class="form" action="#" method="POST">
+          <form class="form" action="#" method="POST" @submit.prevent="addToCart">
+            <!-- добавили обработчик сабмит  -->
             <b class="item__price"> {{ product.price | numberFormat }} ₽ </b>
 
             <fieldset class="form__block">
@@ -198,7 +199,7 @@
                   </svg>
                 </button>
                 <label for="id8">
-                  <input type="text" value="1" name="count" id="id8" />
+                  <input type="text" v-model.number="productAmount" id="id8" />
                 </label>
                 <button type="button" aria-label="Добавить один товар">
                   <svg width="12" height="12" fill="currentColor">
@@ -284,13 +285,17 @@ import numberFormat from '@/helpers/numberFormat';
 
 export default {
   name: 'ProductPage',
-  props: ['pageParams'],
+  data() {
+    return {
+      productAmount: 1,
+    };
+  },
   filters: {
     numberFormat,
   },
   computed: {
     product() {
-      return products.find((product) => product.id === this.pageParams.id);
+      return products.find((product) => product.id === +this.$route.params.id);
     },
     category() {
       return categories.find(
@@ -300,6 +305,20 @@ export default {
   },
   methods: {
     gotoPage,
+    addToCart() {
+      this.$store.commit(
+        // при помощи AddToCart формируем объект
+        // который будет сформирован в соответствии с нашим запросом
+        // нащ запрос будем формировать в функции addProductToCart
+        // с помощью коммит обращаемся к мутации
+        // передаем два аргумента
+        // первый аргумент - это название функции
+        // второй аргумент - это любый данные,
+        // которые мы хотим передать в обработчик этой мутации
+        'addProductToCart',
+        { productId1: this.product.id, amount1: this.productAmount },
+      );
+    },
   },
 };
 </script>
