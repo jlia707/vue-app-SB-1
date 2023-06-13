@@ -6,7 +6,7 @@
           <router-link
             class="breadcrumbs__link"
             href="#"
-            :to="{name: 'main'}"
+            :to="{ name: 'main' }"
           >
             Каталог
           </router-link>
@@ -15,7 +15,7 @@
           <router-link
             class="breadcrumbs__link"
             href="#"
-            :to="{name: 'main'}"
+            :to="{ name: 'main' }"
           >
             {{ category.title }}
           </router-link>
@@ -89,7 +89,12 @@
         <span class="item__code">Артикул: {{ product.id }}</span>
         <h2 class="item__title">{{ product.title }}</h2>
         <div class="item__form">
-          <form class="form" action="#" method="POST" @submit.prevent="addToCart">
+          <form
+            class="form"
+            action="#"
+            method="POST"
+            @submit.prevent="addToCart"
+          >
             <!-- добавили обработчик сабмит  -->
             <b class="item__price"> {{ product.price | numberFormat }} ₽ </b>
 
@@ -193,7 +198,11 @@
 
             <div class="item__row">
               <div class="form__counter">
-                <button type="button" aria-label="Убрать один товар">
+                <button
+                  type="button"
+                  aria-label="Убрать один товар"
+                  @click="decrement"
+                >
                   <svg width="12" height="12" fill="currentColor">
                     <use xlink:href="#icon-minus"></use>
                   </svg>
@@ -201,7 +210,11 @@
                 <label for="id8">
                   <input type="text" v-model.number="productAmount" id="id8" />
                 </label>
-                <button type="button" aria-label="Добавить один товар">
+                <button
+                  type="button"
+                  aria-label="Добавить один товар"
+                  @click="increment"
+                >
                   <svg width="12" height="12" fill="currentColor">
                     <use xlink:href="#icon-plus"></use>
                   </svg>
@@ -296,6 +309,7 @@ export default {
   computed: {
     product() {
       return products.find((product) => product.id === +this.$route.params.id);
+      // параметр id берем из файла index.js, который передал роутер парамс
     },
     category() {
       return categories.find(
@@ -304,6 +318,18 @@ export default {
     },
   },
   methods: {
+    decrement() {
+      this.$store.commit(
+        'decrementAmount',
+        { productId1: this.product.id, amount1: this.productAmount },
+      );
+    },
+    increment() {
+      this.$store.commit(
+        'incrementAmount',
+        { productId1: this.product.id, amount1: this.productAmount },
+      );
+    },
     gotoPage,
     addToCart() {
       this.$store.commit(
@@ -317,6 +343,7 @@ export default {
         // которые мы хотим передать в обработчик этой мутации
         'addProductToCart',
         { productId1: this.product.id, amount1: this.productAmount },
+        // this.product.id - из вычисляемого свойства
       );
     },
   },

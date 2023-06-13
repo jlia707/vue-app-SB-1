@@ -17,7 +17,6 @@ export default new Vuex.Store({
     // второй- какая либо информация котрая будет передавться при вызове этой мутации
     addProductToCart(state, { productId1, amount1 }) {
       const item = state.cartProducts.find((item1) => item1.productId === productId1);
-
       if (item) {
         item.amount += amount1;
       } else {
@@ -32,17 +31,45 @@ export default new Vuex.Store({
       // productId: productId,
       // amount: amount,
     },
+    updateCartProductAmuont(state, { productId2, amount2 }) {
+      const item = state.cartProducts.find((item1) => item1.productId === productId2);
+      if (item) {
+        item.amount += amount2;
+      }
+    },
+    deleteCartProduct(state, productId) {
+      state.cartProducts = state.cartProducts.filter((item) => item.productId !== productId);
+    },
+    decrementAmount(state, { productId1, amount1 }) {
+      const item = state.cartProducts.find((item1) => item1.productId === productId1);
+      if (item) {
+        item.amount -= amount1;
+      }
+    },
+    incrementAmount(state, { productId1, amount1 }) {
+      const item = state.cartProducts.find((item1) => item1.productId === productId1);
+      if (item) {
+        item.amount += amount1;
+      }
+    },
   },
   getters: {
     cartDetailProducts(state) {
       const cartWithDitails = state.cartProducts.map((item) => {
-        const productDetails = products.find((p) => p.id === item.productId1);
+        const productDetails = products.find((p) => p.id === item.productId);
         return {
           ...item,
           product: productDetails,
         };
       });
       return cartWithDitails;
+    },
+    cartTotalPrice(state, getters) {
+      return getters.cartDetailProducts
+        .reduce((acc, item) => (item.product.price * item.amount) + acc, 0);
+    },
+    cartLength(state, getters) {
+      return getters.cartDetailProducts.length;
     },
   },
 });
