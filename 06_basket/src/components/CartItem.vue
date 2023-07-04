@@ -18,7 +18,7 @@
     <span class="product__code"> {{ item.product.id }} </span>
 
     <div class="product__counter form__counter">
-      <button type="button" aria-label="Убрать один товар">
+      <button type="button" v-on="decrement" aria-label="Убрать один товар">
         <svg width="10" height="10" fill="currentColor">
           <use xlink:href="#icon-minus"></use>
         </svg>
@@ -26,7 +26,7 @@
       <label for="id8">
         <input type="text" v-model.number="amount" name="count" id="id8" />
       </label>
-      <button type="button" aria-label="Добавить один товар">
+      <button type="button" v-on="increment" aria-label="Добавить один товар">
         <svg width="10" height="10" fill="currentColor">
           <use xlink:href="#icon-plus"></use>
         </svg>
@@ -65,6 +65,22 @@ export default {
       },
       set(value) {
         this.$store.commit('updateCartProductAmuont', { productId2: this.item.productId, amount2: value });
+      },
+    },
+    decrement: {
+      get() {
+        return this.item.amount;
+      },
+      set(value) {
+        this.$store.commit('updateCartProductdecrement', { productId2: this.item.productId, amount2: value });
+      },
+    },
+    increment: {
+      get() {
+        return this.item.amount;
+      },
+      set(value) {
+        this.$store.commit('updateCartProductincrement', { productId2: this.item.productId, amount2: value });
       },
     },
   },
