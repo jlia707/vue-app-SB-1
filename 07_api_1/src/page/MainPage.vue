@@ -48,13 +48,21 @@ export default {
   methods: {
     loadProducts() {
       axios.get('https://vue-study.skillbox.cc/api/products')
-        .then((response) => this.productsData = response.data);
+        .then((response) => { this.productsData = response.data; });
     },
   },
   created() {
     this.loadProducts();
   },
   computed: {
+    products() {
+      return this.productsData ? this.productsData.items.map((product) => {
+          return {
+            ...product,
+            image: product.image.file.url,
+          },
+        }) : [];
+    },
     filteredProducts() {
       let filteredProducts = products;
       if (this.filterPriceFrom > 0) {
