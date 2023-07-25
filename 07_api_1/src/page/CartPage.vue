@@ -3,7 +3,11 @@
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
-          <router-link class="breadcrumbs__link" href="#" :to="{ name: 'main' }">
+          <router-link
+            class="breadcrumbs__link"
+            href="#"
+            :to="{ name: 'main' }"
+          >
             Каталог
           </router-link>
         </li>
@@ -13,8 +17,12 @@
       </ul>
 
       <h1 class="content__title">Корзина</h1>
-      <span class="content__info" v-if="cartLength > 4 "> {{ cartLength }} товаров </span>
-      <span class="content__info" v-else-if="cartLength > 1 "> {{ cartLength }} товарa </span>
+      <span class="content__info" v-if="cartLength > 4">
+        {{ cartLength }} товаров
+      </span>
+      <span class="content__info" v-else-if="cartLength > 1">
+        {{ cartLength }} товарa
+      </span>
       <span class="content__info" v-else> {{ cartLength }} товар </span>
     </div>
 
@@ -34,7 +42,9 @@
           <p class="cart__desc">
             Мы&nbsp;посчитаем стоимость доставки на&nbsp;следующем этапе
           </p>
-          <p class="cart__price">Итого: <span> {{ productsSumma | numberFormat }} </span></p>
+          <p class="cart__price">
+            Итого: <span> {{ productsSumma | numberFormat }} </span>
+          </p>
 
           <button class="cart__button button button--primery" type="submit">
             Оформить заказ
@@ -46,10 +56,11 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { mapGetters } from 'vuex';
 import numberFormat from '@/helpers/numberFormat';
-import products from '@/data/products';
 import CartItem from '@/components/CartItem.vue';
+import API_BASE_URL from '../config';
 
 export default {
   name: 'CartPage',
@@ -60,15 +71,29 @@ export default {
   },
   components: { CartItem },
   filters: { numberFormat },
+  methods: {
+    loadProducts() {
+      axios
+        .get(`${API_BASE_URL}/api/products`)
+        .then((response) => {
+          this.productsData = response.data;
+        });
+    },
+  },
+  created() {
+    this.loadProducts();
+  },
   computed: {
     ...mapGetters({
       productsCalc: 'cartDetailProducts',
       productsSumma: 'cartTotalPrice',
       cartLength: 'cartLength',
-      product() {
-        return products.find(
-          (product) => product.id === +this.$route.params.id,
-        );
+      products() {
+        return this.productsData
+          ? this.productsData.items.map((product) => ({
+            ...product,
+            image: product.image.file.url,
+          })) : [];
       },
     }),
   },

@@ -1,20 +1,18 @@
-import products from '@/data/products';
+import axios from 'axios';
 import Vue from 'vue';
 import Vuex from 'vuex';
+import API_BASE_URL from '../config';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    cartProducts: [
-      { productId: 1, amount: 2 },
-    ],
+    cartProducts: [],
+    userAccessKey: null,
+
+    cartProductsData: [],
   },
   mutations: {
-    // название функции - название мутации
-    // обработчик фунции принимает несколько аргументов
-    // первый аргумент - это объект состояние
-    // второй- какая либо информация котрая будет передавться при вызове этой мутации
     addProductToCart(state, { productId1, amount1 }) {
       const item = state.cartProducts.find((item1) => item1.productId === productId1);
       if (item) {
@@ -25,11 +23,6 @@ export default new Vuex.Store({
           amount: amount1,
         });
       }
-      // вариант записи
-      // addProductToCart(state, {productId, amount}) {
-      // state.cartProducts.push({
-      // productId: productId,
-      // amount: amount,
     },
     updateCartProductAmuont(state, { productId2, amount2 }) {
       const item = state.cartProducts.find((item1) => item1.productId === productId2);
@@ -58,18 +51,38 @@ export default new Vuex.Store({
         item.amount += amount1;
       }
     },
+    updateUserAccessKey(state, accessKey) {
+      state.userAccessKey = accessKey;
+    },
+    updateCartProductsData(state, items) {
+      state.cartProductsData = items;
+    },
+    syncCartProducts(state) {
+      state.cartProducts = state.cartProductsData.map((item) => ({
+        productId: item.product.id,
+        amount: item.quantity,
+      }));
+    },
+  },
+  actions: {
+    loadCart(context) {
+      axios
+        .get(`${API_BASE_URL}/api/baskets`, {
+          params: {
+            userAccessKey: context.state.userAccessKey,
+          },
+        })
+        .then((response) => {
+          if (!context.state.userAccessKey) {
+            localStorage.setItem('userAccessKey', response.data.user.accessKey);
+            context.commit('updateUserAccessKey', response.data.user.accessKey);
+          }
+          context.commit('updateCartProductsData', response.data.items);
+          context.commit('syncCartProducts');
+        });
+    },
   },
   getters: {
-    cartDetailProducts(state) {
-      const cartWithDitails = state.cartProducts.map((item) => {
-        const productDetails = products.find((p) => p.id === item.productId);
-        return {
-          ...item,
-          product: productDetails,
-        };
-      });
-      return cartWithDitails;
-    },
     cartTotalPrice(state, getters) {
       return getters.cartDetailProducts
         .reduce((acc, item) => (item.product.price * item.amount) + acc, 0);

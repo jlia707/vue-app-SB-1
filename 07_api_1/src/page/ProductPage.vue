@@ -1,5 +1,9 @@
 <template>
-  <main class="content container">
+<div>
+    <main class="content container" v-if="productLoading">Загрузка товара...</main>
+    <main class="content container" v-else-if="!productData">
+      Не удалось загрузить товар</main>
+    <main class="content container" v-else>
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
@@ -32,7 +36,7 @@
           <img
             width="570"
             height="570"
-            :src="product.image"
+            :src="product.image.file.url"
             srcset="img/phone-square@2x.jpg 2x"
             :alt="product.title"
           />
@@ -288,11 +292,12 @@
         </div>
       </div>
     </section>
-  </main>
+    </main>
+</div>
+
 </template>
 <script>
-import categories from '@/data/categories';
-import products from '@/data/products';
+import axios from 'axios';
 import gotoPage from '@/helpers/gotoPage';
 import numberFormat from '@/helpers/numberFormat';
 
@@ -301,6 +306,9 @@ export default {
   data() {
     return {
       productAmount: 1,
+      productData: null,
+      productLoading: false,
+      productLoadingFailed: false,
     };
   },
   filters: {
@@ -308,13 +316,18 @@ export default {
   },
   computed: {
     product() {
-      return products.find((product) => product.id === +this.$route.params.id);
-      // параметр id берем из файла index.js, который передал роутер парамс
+      return this.productData;
     },
     category() {
-      return categories.find(
-        (category) => category.id === this.product.categoryId,
-      );
+      return this.productData.category;
+    },
+  },
+  watch: {
+    '$route.params.id': {
+      handler() {
+        this.loadProduct();
+      },
+      immediate: true,
     },
   },
   methods: {
@@ -333,19 +346,28 @@ export default {
     gotoPage,
     addToCart() {
       this.$store.commit(
-        // при помощи AddToCart формируем объект
-        // который будет сформирован в соответствии с нашим запросом
-        // нащ запрос будем формировать в функции addProductToCart
-        // с помощью коммит обращаемся к мутации
-        // передаем два аргумента
-        // первый аргумент - это название функции
-        // второй аргумент - это любый данные,
-        // которые мы хотим передать в обработчик этой мутации
         'addProductToCart',
         { productId1: this.product.id, amount1: this.productAmount },
-        // this.product.id - из вычисляемого свойства
       );
     },
+    loadProduct() {
+      this.productLoading = true;
+      this.productLoadingFailed = false;
+      axios.get(`https://vue-study.skillbox.cc/api/products/${this.$route.params.id}`)
+      // параметр id берем из файла index.js, который передал роутер парамс
+        .then((response) => {
+          this.productData = response.data;
+        })
+        .catch(() => {
+          this.productLoadingFailed = true;
+        })
+        .then(() => {
+          this.productLoading = false;
+        });
+    },
+  },
+  created() {
+    this.loadProduct();
   },
 };
 </script>
