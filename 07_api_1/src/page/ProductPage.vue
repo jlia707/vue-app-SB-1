@@ -3,7 +3,7 @@
     <main class="content container" v-if="productLoading">Загрузка товара...</main>
     <main class="content container" v-else-if="!productData">
       Не удалось загрузить товар</main>
-    <main class="content container" v-else>
+    <main class="content container" v-else >
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
