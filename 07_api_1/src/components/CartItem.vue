@@ -53,7 +53,7 @@ export default {
         return this.item.amount;
       },
       set(value) {
-        this.$store.commit('updateCartProductAmuont', { productId2: this.item.productId, amount2: value });
+        this.$store.dispatch('updateCartProductAmuont', { productId2: this.item.productId, amount2: value });
       },
     },
   },
