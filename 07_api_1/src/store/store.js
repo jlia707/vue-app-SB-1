@@ -71,8 +71,9 @@ export default new Vuex.Store({
         });
     },
     addProductToCart(context, { productId, amount }) {
+      console.log(productId);
       return axios
-        .post(`${API_BASE_URL}'/api/baskets/products'`, {
+        .post(`${API_BASE_URL}/api/baskets/products`, {
           productId,
           quantity: amount,
         }, {
@@ -89,7 +90,7 @@ export default new Vuex.Store({
       context.commit('updateCartProductAmmount', { productId, amount });
 
       return axios
-        .put(`${API_BASE_URL}'/api/baskets/products'`, {
+        .put(`${API_BASE_URL}/api/baskets/products`, {
           productId,
           quantity: amount,
         }, {
@@ -118,7 +119,7 @@ export default new Vuex.Store({
     },
     cartTotalPrice(state, getters) {
       return getters.cartDetailProducts
-        .reduce((acc, item) => (item.product.price * item.amount) + acc, 0);
+        .reduce((acc, item) => (item.productDetails.product.price * item.amount) + acc, 0);
     },
     cartLength(state, getters) {
       return getters.cartDetailProducts.length;

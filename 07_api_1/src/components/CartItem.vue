@@ -12,10 +12,10 @@
       />
     </div>
     <h3 class="product__title">
-      {{ item.product.title }}
+      {{ item.productDetails.product.title }}
     </h3>
     <p class="product__info">Объем: <span>128GB</span></p>
-    <span class="product__code"> {{ item.product.id }} </span>
+    <span class="product__code"> {{ item.productDetails.product.id }} </span>
 
     <counter v-model="amount"
     ></counter>
