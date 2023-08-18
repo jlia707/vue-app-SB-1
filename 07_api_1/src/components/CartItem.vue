@@ -4,11 +4,11 @@
   >
     <div class="product__pic">
       <img
-        :src="item.product.image"
+        :src="item.productDetails.product.image.file.url"
         width="120"
         height="120"
         srcset="img/phone-square-3@2x.jpg 2x"
-        :alt="item.product.image"
+        :alt="item.productDetails.product.image"
       />
     </div>
     <h3 class="product__title">
@@ -21,7 +21,7 @@
     ></counter>
 
     <b class="product__price">
-      {{ (item.amount * item.product.price) | numberFormat }} P
+      {{ (item.amount * item.productDetails.product.price) | numberFormat }} P
     </b>
 
     <button

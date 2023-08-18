@@ -46,9 +46,14 @@
             Итого: <span> {{ productsSumma | numberFormat }} </span>
           </p>
 
-          <button class="cart__button button button--primery" type="submit">
+          <router-link
+            tag="button"
+            :to="{ name: 'order' }"
+            class="cart__button button button--primery"
+            type="submit"
+          >
             Оформить заказ
-          </button>
+          </router-link>
         </div>
       </form>
     </section>
@@ -73,11 +78,9 @@ export default {
   filters: { numberFormat },
   methods: {
     loadProducts() {
-      axios
-        .get(`${API_BASE_URL}/api/products`)
-        .then((response) => {
-          this.productsData = response.data;
-        });
+      axios.get(`${API_BASE_URL}/api/products`).then((response) => {
+        this.productsData = response.data;
+      });
     },
   },
   created() {
@@ -93,7 +96,8 @@ export default {
           ? this.productsData.items.map((product) => ({
             ...product,
             image: product.image.file.url,
-          })) : [];
+          }))
+          : [];
       },
     }),
   },
