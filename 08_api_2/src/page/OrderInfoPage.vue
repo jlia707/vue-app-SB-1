@@ -28,30 +28,27 @@
 
             <ul class="dictionary">
               <order-info-item-vue
-                :title="title"
-                v-for="item in OrderInfo2"
-                :key="item.id"
+                title="Получатель"
+                :item="orderInfo.name"
               ></order-info-item-vue>
-              <li class="dictionary__item">
-                <span class="dictionary__key"> Получатель </span>
-                <span class="dictionary__value">
-                  Иванова Василиса Алексеевна
-                </span>
-              </li>
+              <order-info-item-vue
+                title="Адрес доставки"
+                :item="orderInfo.address"
+              ></order-info-item-vue>
               <li class="dictionary__item">
                 <span class="dictionary__key"> Адрес доставки </span>
                 <span class="dictionary__value">
                   Москва, ул. Ленина, 21, кв. 33
                 </span>
               </li>
-              <li class="dictionary__item">
-                <span class="dictionary__key"> Телефон </span>
-                <span class="dictionary__value"> 8 800 989 74 84 </span>
-              </li>
-              <li class="dictionary__item">
-                <span class="dictionary__key"> Email </span>
-                <span class="dictionary__value"> lalala@mail.ru </span>
-              </li>
+              <order-info-item-vue
+                title="Телефон"
+                :item="orderInfo.phone"
+              ></order-info-item-vue>
+              <order-info-item-vue
+                title="Email"
+                :item="orderInfo.email"
+              ></order-info-item-vue>
               <li class="dictionary__item">
                 <span class="dictionary__key"> Способ оплаты </span>
                 <span class="dictionary__value"> картой при получении </span>
@@ -63,20 +60,18 @@
             <ul class="cart__orders">
               <order-item-vue
                 class="cart__order"
-                v-for="item in productsCalc2"
-                :key="item.productId"
+                v-for="item in orderInfo.basket.items"
+                :key="item.id"
                 :item="item"
               >
               </order-item-vue>
             </ul>
-
-            <div class="cart__total">
-              <p>Доставка: <b>500 ₽</b></p>
-              <p>
-                Итого: <b>{{ cartLength }}</b> товара на сумму
-                <b> {{ productsSumma | numberFormat }} ₽</b>
-              </p>
-            </div>
+          <div class="cart__total">
+            <p>Доставка: <b>500 ₽</b></p>
+            <p>Итого: <b>
+              {{ orderInfo.basket.items.length }}</b> товара на сумму <b>
+              {{ orderInfo.totalPrice }} ₽</b></p>
+          </div>
           </div>
         </form>
       </section>
@@ -85,23 +80,18 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import { mapActions, mapMutations, mapState } from 'vuex';
 import OrderItemVue from '@/components/OrderItem.vue';
 import numberFormat from '@/helpers/numberFormat';
 import OrderInfoItemVue from '@/components/OrderInfoItem.vue';
 
 export default {
   filters: { numberFormat },
-  components: { OrderItemVue, OrderInfoItemVue },
+  components: {
+    OrderItemVue, OrderInfoItemVue,
+  },
   computed: {
-    ...mapGetters({
-      productsCalc2: 'updateOrderInfo',
-      productsSumma: 'cartTotalPrice',
-      cartLength: 'cartLength',
-    }),
-    ...mapMutations({
-      OrderInfo2: 'updateOrderInfo',
-    }),
+    ...mapState(['orderInfo']),
   },
   created() {
     if (
@@ -110,6 +100,13 @@ export default {
       return;
     }
     this.$store.dispatch('loadOrderInfo', this.$route.params.id);
+  },
+  methods: {
+    ...mapActions(['loadOrderInfo']),
+    ...mapMutations({
+      productsCalc: 'updateOrderInfoData',
+    }),
+    // не получилось через скобки связать
   },
 };
 </script>

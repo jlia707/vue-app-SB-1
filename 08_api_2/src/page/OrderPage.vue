@@ -417,7 +417,7 @@ export default {
         .then((response) => {
           this.$store.commit('resetCart');
           this.$store.commit('updateOrderInfo', response.data);
-          // почему через мутацию из компанента а не через действие а потом мутацию, вроде же нельзя
+          // почему через мутацию из компонента а не через действие а потом мутацию, вроде же нельзя
           this.$router.push({ name: 'orderInfo', params: { id: response.data.id } });
         })
         .catch((error) => {

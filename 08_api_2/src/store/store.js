@@ -13,10 +13,15 @@ export default new Vuex.Store({
     cartProductsData: [],
 
     orderInfo: null,
+
+    orderInfoData: null,
   },
   mutations: {
     updateOrderInfo(state, orderInfo) {
       state.orderInfo = orderInfo;
+    },
+    updateOrderInfoData(state, orderInfo) {
+      state.orderInfoData = orderInfo.totalPrice;
     },
     resetCart(state) {
       state.cartProducts = [];
@@ -71,7 +76,9 @@ export default new Vuex.Store({
           },
         })
         .then((response) => {
+          debugger;
           context.commit('updateOrderInfo', response.data);
+          context.commit(' updateOrderInfoData', response.data);
         });
     },
     loadCart(context) {
@@ -143,6 +150,13 @@ export default new Vuex.Store({
     },
     cartLength(state, getters) {
       return getters.cartDetailProducts.length;
+    },
+    cartTotalPriceOrder(state) {
+      return state.orderInfoData
+        .reduce((acc, item) => {
+          debugger;
+          return acc + (item.product.price * item.quantity);
+        }, 0);
     },
   },
 });
