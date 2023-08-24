@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapActions } from 'vuex';
 import numberFormat from '@/helpers/numberFormat';
 import Counter from './Counter.vue';
 
@@ -53,12 +53,12 @@ export default {
         return this.item.amount;
       },
       set(value) {
-        this.$store.dispatch('updateCartProductAmuont', { productId2: this.item.productId, amount2: value });
+        this.$store.commit('updateCartProductAmuont', { productId: this.item.productId, amount: value });
       },
     },
   },
   methods: {
-    ...mapMutations({ deleteProduct: 'deleteCartProduct' }),
+    ...mapActions({ deleteProduct: 'deleteCartProductAction' }),
   },
 };
 </script>

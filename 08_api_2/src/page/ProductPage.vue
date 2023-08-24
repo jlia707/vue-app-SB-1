@@ -1,7 +1,7 @@
 <template>
 <div>
     <main class="content container" v-if="productLoading">Загрузка товара...</main>
-    <main class="content container" v-else-if="!productData">
+    <main class="content container" v-else-if="!product">
       Не удалось загрузить товар</main>
     <main class="content container" v-else >
     <div class="content__top">
@@ -201,29 +201,8 @@
             </fieldset>
 
             <div class="item__row">
-              <div class="form__counter">
-                <button
-                  type="button"
-                  aria-label="Убрать один товар"
-                  @click="decrement"
-                >
-                  <svg width="12" height="12" fill="currentColor">
-                    <use xlink:href="#icon-minus"></use>
-                  </svg>
-                </button>
-                <label for="id8">
-                  <input type="text" v-model.number="productAmount" id="id8" />
-                </label>
-                <button
-                  type="button"
-                  aria-label="Добавить один товар"
-                  @click="increment"
-                >
-                  <svg width="12" height="12" fill="currentColor">
-                    <use xlink:href="#icon-plus"></use>
-                  </svg>
-                </button>
-              </div>
+              <counter v-model="productAmount"
+              ></counter>
 
               <button class="button button--primery" type="submit" :disabled="productAddSending">
                 В корзину
@@ -303,16 +282,17 @@ import axios from 'axios';
 import gotoPage from '@/helpers/gotoPage';
 import numberFormat from '@/helpers/numberFormat';
 import { mapActions } from 'vuex';
+import Counter from '@/components/Counter.vue';
 
 export default {
   name: 'ProductPage',
+  components: { Counter },
   data() {
     return {
-      productAmount: 1,
-      productData: null,
+      product: null,
       productLoading: false,
       productLoadingFailed: false,
-
+      productAmount: 1,
       productAdded: false,
       productAddSending: false,
     };
@@ -321,11 +301,8 @@ export default {
     numberFormat,
   },
   computed: {
-    product() {
-      return this.productData;
-    },
     category() {
-      return this.productData.category;
+      return this.product.category;
     },
   },
   watch: {
@@ -341,13 +318,13 @@ export default {
     decrement() {
       this.$store.commit(
         'decrementAmount',
-        { productId1: this.product.id, amount1: this.productAmount },
+        { productId1: this.product.id, amount: this.productAmount },
       );
     },
     increment() {
       this.$store.commit(
         'incrementAmount',
-        { productId1: this.product.id, amount1: this.productAmount },
+        { productId1: this.product.id, amount: this.productAmount },
       );
     },
     gotoPage,
@@ -367,7 +344,8 @@ export default {
       axios.get(`https://vue-study.skillbox.cc/api/products/${this.$route.params.id}`)
       // параметр id берем из файла index.js, который передал роутер парамс
         .then((response) => {
-          this.productData = response.data;
+          console.log(response);
+          this.product = response.data;
         })
         .catch(() => {
           this.productLoadingFailed = true;

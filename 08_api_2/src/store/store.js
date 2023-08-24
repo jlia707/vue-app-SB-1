@@ -27,31 +27,33 @@ export default new Vuex.Store({
       state.cartProducts = [];
       state.cartProductsData = [];
     },
-    updateCartProductAmuont(state, { productId2, amount2 }) {
-      const item = state.cartProducts.find((item1) => item1.productId === productId2);
+    updateCartProductAmuont(state, { productId, amount }) {
+      const item = state.cartProducts.find((item1) => item1.productId === productId);
       if (item) {
-        item.amount = amount2;
+        item.amount = amount;
       }
     },
-    updateCartProductPush(state, productId2) {
-      const item = state.cartProducts.find((item1) => item1.productId === productId2);
+    updateCartProductPush(state, productId) {
+      const item = state.cartProducts.find((item1) => item1.productId === productId);
       if (item > 1) {
         item.amount -= 1;
       }
     },
     deleteCartProduct(state, productId) {
       state.cartProducts = state.cartProducts.filter((item) => item.productId !== productId);
+      state.cartProductsData = state.cartProductsData
+        .filter((item) => item.product.id !== productId);
     },
-    decrementAmount(state, { productId1, amount1 }) {
-      const item = state.cartProducts.find((item1) => item1.productId === productId1);
+    decrementAmount(state, { productId, amount }) {
+      const item = state.cartProducts.find((item1) => item1.productId === productId);
       if (item) {
-        item.amount -= amount1;
+        item.amount -= amount;
       }
     },
-    incrementAmount(state, { productId1, amount1 }) {
-      const item = state.cartProducts.find((item1) => item1.productId === productId1);
+    incrementAmount(state, { productId, amount }) {
+      const item = state.cartProducts.find((item1) => item1.productId === productId);
       if (item) {
-        item.amount += amount1;
+        item.amount += amount;
       }
     },
     updateUserAccessKey(state, accessKey) {
@@ -68,6 +70,20 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    deleteCartProductAction(context, productId) {
+      return axios
+        .delete(`${API_BASE_URL}/api/baskets/products`, {
+          params: {
+            userAccessKey: context.state.userAccessKey,
+          },
+          data: {
+            productId,
+          },
+        })
+        .then(() => {
+          context.commit('deleteCartProduct', productId);
+        });
+    },
     loadOrderInfo(context, orderId) {
       return axios
         .get(`${API_BASE_URL}/api/orders/${orderId}`, {
@@ -114,7 +130,7 @@ export default new Vuex.Store({
         });
     },
     updateCartProductAmuont(context, { productId, amount }) {
-      context.commit('updateCartProductAmmount', { productId, amount });
+      context.commit('updateCartProductAmount', { productId, amount });
 
       return axios
         .put(`${API_BASE_URL}/api/baskets/products`, {

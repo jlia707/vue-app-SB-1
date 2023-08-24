@@ -4,7 +4,7 @@
       type="button"
       @click="conterDecrease"
       aria-label="Убрать один товар"
-      :disabled="amount <= 1"
+      :disabled="value <= 1"
     >
       <svg width="10" height="10" fill="currentColor">
         <use xlink:href="#icon-minus"></use>
@@ -13,8 +13,8 @@
     <label for="id8">
       <input
         type="text"
-        :value="amount"
-        @input="$emit('update-amount', +$event.target.value)"
+        :value="value"
+        @input="$emit('input', +$event.target.value)"
       />
     </label>
     <button
@@ -33,19 +33,15 @@
 
 export default {
   name: 'counter-changed',
-  model: {
-    prop: 'amount',
-    event: 'update-amount',
-  },
-  props: ['amount'],
+  props: ['value'],
   methods: {
     conterDecrease() {
-      if (this.amount > 1) {
-        this.$emit('update-amount', this.amount - 1);
+      if (this.value > 1) {
+        this.$emit('input', this.value - 1);
       }
     },
     conterIncrease() {
-      this.$emit('update-amount', this.amount + 1);
+      this.$emit('input', this.value + 1);
     },
   },
 };
