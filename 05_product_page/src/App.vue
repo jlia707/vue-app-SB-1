@@ -41,7 +41,7 @@ export default {
   },
   components: { MainPage, ProductPage, NotFoundPage },
   created() {
-    eventBus.$on('gotoPage', (pageName, pageParams) => this.gotoPage1(pageName, pageParams));
+    eventBus.$on('gotoPageQQQ', (pageName, pageParams) => this.gotoPage1(pageName, pageParams));
   },
 };
 </script>

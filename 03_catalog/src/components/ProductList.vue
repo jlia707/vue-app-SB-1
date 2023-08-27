@@ -1,5 +1,5 @@
 <template>
-  <ul>
+  <ul class="catalog__list">
     <ProductItem
       v-for="(product, index) in products"
       :product="product"
